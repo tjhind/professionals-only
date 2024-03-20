@@ -1,7 +1,15 @@
 export default function Header() {
   return (
     <>
-      <h1></h1>
+      <section className="flex justify-center pb-6 bg-white">
+        <img
+          className="h-9 w-8 mr-2 pb-1 mt-2 md:h-10 md:w-10 md:mt-5"
+          src={"https://cdn-icons-png.flaticon.com/128/639/639394.png"}
+        ></img>
+        <h1 className="font-header font-extralight text-2xl mt-2 md:text-3xl md:mt-6">
+          ProfessionalsOnly
+        </h1>
+      </section>
     </>
   );
 }
