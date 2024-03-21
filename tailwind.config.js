@@ -9,6 +9,7 @@ export default {
       },
       fontFamily: {
         header: "Lexend",
+        body: "Lexend",
       },
     },
   },
