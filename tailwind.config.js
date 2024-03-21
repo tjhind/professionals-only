@@ -2,7 +2,16 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "",
+        secondary: {},
+      },
+      fontFamily: {
+        header: "Lexend",
+        body: "Lexend",
+      },
+    },
   },
   plugins: [],
 };
