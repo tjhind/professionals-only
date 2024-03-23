@@ -3,4 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.error {
+  @apply w-[150px] h-[10px] text-xs;
+}
