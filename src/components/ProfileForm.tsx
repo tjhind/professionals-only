@@ -118,6 +118,7 @@ export default function ProfileForm() {
                 name="firstName"
                 className="w-[120px] font-body text-sm md:text-md rounded-md font-light p-2"
                 placeholder="first name*"
+                maxLength={12}
                 onChange={handleChange}
                 onBlur={(e) => {
                   !userInfo["firstName"]
@@ -136,6 +137,7 @@ export default function ProfileForm() {
                 name="lastName"
                 className="w-[120px] font-body text-sm md:text-md rounded-md font-light p-2"
                 placeholder="last name*"
+                maxLength={12}
                 onChange={handleChange}
                 onBlur={(e) => {
                   !userInfo["lastName"]
@@ -168,6 +170,7 @@ export default function ProfileForm() {
                 name="job"
                 className="w-[130px] md:w-[170px] font-body text-sm md:text-md rounded-md font-light p-2"
                 placeholder="job title*"
+                maxLength={30}
                 onChange={handleChange}
                 onBlur={(e) => {
                   !userInfo["job"]
@@ -211,6 +214,7 @@ export default function ProfileForm() {
                 name="email"
                 className="w-[160px] font-body text-sm md:text-md rounded-md font-light p-2"
                 placeholder="email*"
+                maxLength={15}
                 onChange={handleChange}
                 onBlur={(e) => {
                   !userInfo["email"]
@@ -248,6 +252,7 @@ export default function ProfileForm() {
                 className="w-[120px] md:w-[160px] font-body text-sm md:text-md rounded-md font-light p-2"
                 placeholder="city*"
                 onChange={handleChange}
+                maxLength={15}
                 onBlur={(e) => {
                   !userInfo["city"]
                     ? setErrors((curr) => {
@@ -316,7 +321,11 @@ export default function ProfileForm() {
                   })
                 }
               ></input>
-              <h4 className="md:w-[230px] h-[20px] font-body text-xs md:text-md font-light ml-4 md:ml-2 md:mt-2.5">
+              <h4
+                className={`md:w-[230px] h-[20px] font-body text-xs md:text-md font-light ml-4 md:ml-2 md:mt-2.5 ${
+                  userInfo["showAge"] ? null : "text-slate-500"
+                }`}
+              >
                 show age on profile
               </h4>
             </div>
