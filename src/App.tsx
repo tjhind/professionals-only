@@ -6,11 +6,11 @@ import ProfileCard from "./components/ProfileCard";
 export default function App() {
   return (
     <div className="mx-2 md:mx-10">
-      <Routes>
-        <Route path="profile-card" element={<ProfileCard />} />
-      </Routes>
       <Header />
-      <ProfileForm />
+      <Routes>
+        <Route path="/" element={<ProfileForm />} />
+        <Route path="/profile-card" element={<ProfileCard />} />
+      </Routes>
     </div>
   );
 }
