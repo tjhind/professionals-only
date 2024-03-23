@@ -3,6 +3,38 @@
 @tailwind components;
 @tailwind utilities;
 
-.error {
-  @apply w-[150px] h-[10px] text-xs;
+.main-section {
+  @apply w-[370px] h-[520px] md:h-[500px] md:w-[600px] lg:w-[700px] rounded-md mt-0 p-4 bg-neutral-100 shadow-sm border border-slate-500;
+}
+.hello {
+  @apply px-10 md:px-36 lg:px-52 pt-4 pb-2;
+}
+.tab {
+  @apply md:text-xl mt-2 pt-2 px-6 py-2 bg-blue-100 rounded-t-xl cursor-pointer shadow-sm border border-blue-200;
+}
+.interests-box {
+  @apply w-[400px] h-[90px] md:w-[600px] md:h-[80px] lg:w-[900px] rounded-xl mt-8 md:mt-6 lg:mt-5 mb-1 text-sm md:text-lg font-body bg-neutral-300 p-0 px-6 md:px-12;
+}
+.interests-box-2 {
+  @apply w-[350px] h-[100px] md:w-[550px] md:h-[120px] lg:w-[800px] rounded-xl mt-8 md:mt-6 lg:mt-5 mb-1 text-sm md:text-lg font-body bg-neutral-300 p-0;
+}
+.inner-box {
+  @apply w-[400px] h-[350px] md:w-[600px] md:h-[300px] lg:w-[900px] rounded-xl mt-1 md:mt-6 lg:mt-5 md:mb-1 text-sm md:text-lg font-body bg-neutral-300 p-0;
+}
+
+.interested {
+  @apply px-3 md:px-4 h-[30px] mr-2 md:h-[45px] mt-0 md:mt-4 lg:mt-3 rounded-xl
+  bg-neutral-100 text-slate-700 w-fit cursor-pointer;
+}
+
+.small-text {
+  @apply w-[330px] h-[10px] pl-3 font-body text-xs font-light text-slate-400;
+}
+
+.basic-input {
+  @apply w-[120px] font-body text-sm rounded-md font-light p-2;
+}
+
+.submit-button {
+  @apply w-fit rounded-xl mb-6;
 }

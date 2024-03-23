@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { errorMsgs, industries, today } from "../utils/data";
 
 type userInfo = {
   firstName: string;
@@ -29,21 +30,28 @@ export default function ProfileForm() {
     interests: [],
   });
 
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    job: "",
-    industry: "",
-    DOB: "",
-    email: "",
-    city: "",
-    interests: "Select at least one",
+  const [showErrs, setShowErrs] = useState({
+    firstName: false,
+    lastName: false,
+    job: false,
+    DOB: false,
+    email: false,
+    city: false,
   });
 
-  const today = new Date();
+  const [errors, setErrors] = useState(errorMsgs);
+
+  const toggleError = (input: string) => {
+    setShowErrs((curr) => {
+      return { ...curr, [input]: true };
+    });
+  };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
+    setShowErrs((curr) => {
+      return { ...curr, [name]: "true" };
+    });
     setErrors((curr) => {
       return { ...curr, [name]: "" };
     });
@@ -66,7 +74,6 @@ export default function ProfileForm() {
       : setUserInfo((curr) => {
           return { ...curr, ["interests"]: [...userInfo["interests"], name] };
         });
-    console.log(userInfo["interests"]);
   };
 
   // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -81,87 +88,78 @@ export default function ProfileForm() {
   //       });
   // };
 
-  // const handleSubmit = (e: React.FormEvent<SubmitEvent>) => {
-  //   e.preventDefault();
-  //   validateForm();
-  // };
-
-  const industries = [
-    { value: "Technology", label: "Technology" },
-    { value: "Finance", label: "Finance" },
-    { value: "Healthcare", label: "Healthcare" },
-    { value: "Hospitality", label: "Hospitality" },
-    {
-      value: "Other",
-      label: "Other: type to select",
-      isDisabled: true,
-    },
-  ];
+  const validateForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setShowErrs({
+      firstName: true,
+      lastName: true,
+      job: true,
+      DOB: true,
+      email: true,
+      city: true,
+    });
+  };
 
   return (
     <>
       <section className="flex flex-row justify-center align-center h-fit">
         <div>
           <section className="flex justify-left ml-4">
-            <h3 className="font-header text-l md:text-xl mt-2 pt-2 px-6 py-2 bg-blue-100 rounded-t-xl text-slate-700 cursor-pointer shadow-sm">
+            <h3 className="font-header text-l tab text-slate-700">
               Create your profile
             </h3>
           </section>
-          <section className="w-[370px] h-[520px] md:h-[500px] md:w-[600px] lg:w-[700px] rounded-md mt-0 p-4 bg-neutral-100 shadow-sm">
+          <section className="main-section">
             <div className="flex justify-left">
-              <h4 className=" w-[330px] h-[10px] pl-3 font-body text-xs font-light text-slate-400">
-                *Indicates required fields
-              </h4>
+              <h4 className="small-text">*Indicates required fields</h4>
             </div>
             <div className="flex justify-between px-10 md:px-36 lg:px-52 pt-4 pb-2">
               <input
                 name="firstName"
-                className="w-[120px] font-body text-sm md:text-md rounded-md font-light p-2"
+                className="basic-input md:text-md"
                 placeholder="first name*"
-                maxLength={12}
+                maxLength={8}
                 onChange={handleChange}
                 onBlur={(e) => {
-                  !userInfo["firstName"]
+                  userInfo["firstName"]
                     ? setErrors((curr) => {
-                        return {
-                          ...curr,
-                          ["firstName"]: "First name is required",
-                        };
+                        return { ...curr, ["firstName"]: "" };
                       })
                     : setErrors((curr) => {
-                        return { ...curr, ["firstName"]: "" };
+                        return {
+                          ...curr,
+                          ["firstName"]: errorMsgs["firstName"],
+                        };
                       });
+                  toggleError("firstName");
                 }}
               ></input>
               <input
                 name="lastName"
-                className="w-[120px] font-body text-sm md:text-md rounded-md font-light p-2"
+                className="basic-input md:text-md"
                 placeholder="last name*"
-                maxLength={12}
+                maxLength={8}
                 onChange={handleChange}
                 onBlur={(e) => {
-                  !userInfo["lastName"]
+                  userInfo["lastName"]
                     ? setErrors((curr) => {
-                        return {
-                          ...curr,
-                          ["lastName"]: "Last name is required",
-                        };
+                        return { ...curr, ["lastName"]: "" };
                       })
                     : setErrors((curr) => {
-                        return { ...curr, ["lastName"]: "" };
+                        return { ...curr, ["lastName"]: errorMsgs["lastName"] };
                       });
+                  toggleError("lastName");
                 }}
               ></input>
             </div>
             <div className="flex justify-between md:px-32 lg:px-48">
               <div>
-                <h4 className=" ml-3 w-[150px] h-[10px] font-body text-xs font-heavy">
-                  {errors.firstName}
+                <h4 className=" ml-3 w-[150px] h-[10px] font-body text-xs font-heavy text-red">
+                  {showErrs["firstName"] ? <>{errors.firstName}</> : null}
                 </h4>
               </div>
               <div>
                 <h4 className=" w-[150px] h-[10px] md:pl-3 font-body text-xs font-heavy lg:pl-0">
-                  {errors.lastName}
+                  {showErrs["lastName"] ? <>{errors.lastName}</> : null}
                 </h4>
               </div>
             </div>
@@ -170,19 +168,20 @@ export default function ProfileForm() {
                 name="job"
                 className="w-[130px] md:w-[170px] font-body text-sm md:text-md rounded-md font-light p-2"
                 placeholder="job title*"
-                maxLength={30}
+                maxLength={20}
                 onChange={handleChange}
                 onBlur={(e) => {
-                  !userInfo["job"]
+                  userInfo["job"]
                     ? setErrors((curr) => {
                         return {
                           ...curr,
-                          ["job"]: "Job title is required",
+                          ["job"]: "",
                         };
                       })
                     : setErrors((curr) => {
-                        return { ...curr, ["job"]: "" };
+                        return { ...curr, ["job"]: errorMsgs["job"] };
                       });
+                  toggleError("job");
                 }}
               ></input>
               <CreatableSelect
@@ -205,7 +204,7 @@ export default function ProfileForm() {
             </div>
             <div className="flex justify-center">
               <h4 className=" ml-2 w-[300px] h-[10px] font-body text-xs font-heavy">
-                {errors.job}
+                {showErrs["job"] ? <>{errors.job}</> : null}
               </h4>
             </div>
 
@@ -221,7 +220,7 @@ export default function ProfileForm() {
                     ? setErrors((curr) => {
                         return {
                           ...curr,
-                          ["email"]: "Email is required",
+                          ["email"]: errorMsgs["email"],
                         };
                       })
                     : userInfo["email"].match(
@@ -236,13 +235,14 @@ export default function ProfileForm() {
                           ["email"]: "Please enter a valid email",
                         };
                       });
+                  toggleError("email");
                 }}
               ></input>
             </div>
             <div className="flex justify-center items-center">
               <div>
                 <h4 className="ml-48 w-[300px] h-[10px] font-body text-xs font-heavy">
-                  {errors.email}
+                  {showErrs["email"] ? <>{errors.email}</> : null}
                 </h4>
               </div>
             </div>
@@ -254,23 +254,24 @@ export default function ProfileForm() {
                 onChange={handleChange}
                 maxLength={15}
                 onBlur={(e) => {
-                  !userInfo["city"]
+                  userInfo["city"]
                     ? setErrors((curr) => {
                         return {
                           ...curr,
-                          ["city"]: "City is required",
+                          ["city"]: "",
                         };
                       })
                     : setErrors((curr) => {
-                        return { ...curr, ["city"]: "" };
+                        return { ...curr, ["city"]: errorMsgs["city"] };
                       });
+                  toggleError("city");
                 }}
               ></input>
             </div>
             <div className="flex justify-center items-center">
               <div>
                 <h4 className="ml-48 w-[300px] h-[10px] font-body text-xs font-heavy">
-                  {errors.city}
+                  {showErrs["city"] ? <>{errors.city}</> : null}
                 </h4>
               </div>
             </div>
@@ -298,16 +299,17 @@ export default function ProfileForm() {
                 isClearable
                 yearDropdownItemNumber={80}
                 onCalendarClose={() => {
-                  !userInfo["DOB"]
+                  userInfo["DOB"]
                     ? setErrors((curr) => {
                         return {
                           ...curr,
-                          ["DOB"]: "Birthday is required",
+                          ["DOB"]: "",
                         };
                       })
                     : setErrors((curr) => {
-                        return { ...curr, ["DOB"]: "" };
+                        return { ...curr, ["DOB"]: errorMsgs["DOB"] };
                       });
+                  toggleError("DOB");
                 }}
               />
 
@@ -331,23 +333,21 @@ export default function ProfileForm() {
             </div>
             <div className="flex justify-center">
               <h4 className=" ml-20 w-[350px] h-[10px] font-body text-xs font-heavy">
-                {errors.DOB}
+                {showErrs["DOB"] ? <>{errors.DOB}</> : null}
               </h4>
             </div>
 
             <div className="flex justify-center align-center h-fit">
-              <div className="flex justify-between w-[400px] h-[90px] md:w-[600px] md:h-[80px] lg:w-[900px] rounded-xl mt-8 md:mt-6 lg:mt-5 mb-1 text-sm md:text-lg font-body bg-neutral-300 p-0">
+              <div className="flex justify-between interests-box">
                 <div className="mt-0">
-                  <h4 className="text-xs p-3">Interested in*...</h4>
-                  <h4 className="text-xs pl-3 text-slate-700 font-light">
-                    {!userInfo["interests"].length ? errors.interests : null}
+                  <h4 className="text-xs p-3 mt-3 text-slate-700">
+                    Interested in...
                   </h4>
                 </div>
                 <button
-                  className={`px-3 h-[40px] md:h-[50px] mt-6 md:mt-3 rounded-xl ${
-                    userInfo["interests"].includes("Networking")
-                      ? "bg-neutral-100 text-slate-700"
-                      : null
+                  className={`px-3 h-[40px] md:h-[50px] mt-6 md:mt-3 rounded-md hover:bg-neutral-400  text-slate-700 ${
+                    userInfo["interests"].includes("Networking") &&
+                    "bg-neutral-200 shadow-md border-slate-500 border"
                   }`}
                   name="Networking"
                   onClick={handleClick}
@@ -355,10 +355,9 @@ export default function ProfileForm() {
                   Networking
                 </button>
                 <button
-                  className={`px-3  h-[40px] md:h-[50px] mt-6 md:mt-3 rounded-xl ${
-                    userInfo["interests"].includes("Hiring")
-                      ? "bg-neutral-100  text-slate-700"
-                      : null
+                  className={`px-3 h-[40px] md:h-[50px] mt-6 md:mt-3 rounded-md hover:bg-neutral-400  text-slate-700 ${
+                    userInfo["interests"].includes("Hiring") &&
+                    "bg-neutral-200 shadow-md border-slate-500 border"
                   }`}
                   name="Hiring"
                   onClick={handleClick}
@@ -366,10 +365,9 @@ export default function ProfileForm() {
                   Hiring
                 </button>
                 <button
-                  className={`px-3 mr-2  h-[40px] md:h-[50px] mt-6 md:mt-3 w-[60px] rounded-xl ${
-                    userInfo["interests"].includes("Jobs")
-                      ? "bg-neutral-100  text-slate-700"
-                      : null
+                  className={`px-3 h-[40px] md:h-[50px] mt-6 md:mt-3 rounded-md hover:bg-neutral-400  text-slate-700 ${
+                    userInfo["interests"].includes("Jobs") &&
+                    "bg-neutral-200 shadow-md border-slate-500 border"
                   }`}
                   name="Jobs"
                   onClick={handleClick}
@@ -383,11 +381,25 @@ export default function ProfileForm() {
       </section>
 
       <div className="flex justify-center align-center mt-5 md:mt-5">
-        <Link to="ProfileCard">
-          <button className="bg-neutral-400 w-fit rounded-xl mb-6">
+        {Object.values(errors).filter((item) => {
+          return item === "";
+        }).length === 6 ? (
+          <Link to="/profile-card" state={{ userInfo }}>
+            <button
+              className="submit-button bg-neutral-400"
+              onClick={validateForm}
+            >
+              <h3 className="font-header text-m md:text-l py-2 px-6">Submit</h3>
+            </button>
+          </Link>
+        ) : (
+          <button
+            onClick={validateForm}
+            className="submit-button bg-neutral-200"
+          >
             <h3 className="font-header text-m md:text-l py-2 px-6">Submit</h3>
           </button>
-        </Link>
+        )}
       </div>
     </>
   );
