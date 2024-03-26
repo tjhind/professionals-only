@@ -5,7 +5,7 @@ export default function UserCard() {
   const location = useLocation();
   const { userInfo } = location.state;
 
-  // format DOB to years old for display on card:
+  // format DOB to years old for display:
   const birthYear = userInfo["DOB"].getFullYear();
   let age = new Date().getFullYear() - birthYear;
   const month = new Date().getMonth() - userInfo["DOB"].getMonth();
@@ -36,13 +36,13 @@ export default function UserCard() {
                 <div className="flex justify-center font-header font-heavy text-3xl mt-16">
                   <h2 className="pr-1.5">{`${userInfo["firstName"]} `}</h2>
                   <h2>{userInfo["lastName"]} </h2>
-                  {userInfo["showAge"] ? (
+                  {userInfo["showAge"] && (
                     <div className="flex justify-center">
-                      <h2 className="mt-3 font-extralight text-sm pl-3">{`Age: ${age}`}</h2>{" "}
+                      <h2 className="mt-3 font-extralight text-sm pl-3">{`Age: ${age}`}</h2>
                     </div>
-                  ) : null}
+                  )}
                 </div>
-                <div className="flex justify-center flex-wrap font-header font-light text-xl ml-6 ">
+                <div className="flex justify-center flex-wrap font-header font-light text-xl ml-6">
                   <h2>{userInfo["job"]}</h2>
                   {userInfo["industry"] && (
                     <h2 className="pl-2">{`(${userInfo["industry"]})`}</h2>
@@ -62,25 +62,25 @@ export default function UserCard() {
                 </div>
               </div>
             </div>
-            {userInfo["interests"].length ? (
+            {userInfo["interests"].length && (
               <div className="flex justify-center">
                 <div className="interests-box-2">
                   <h4 className="text-xs p-3">Interested in </h4>
                   <div className="flex flex-row px-10 md:px-32">
                     {userInfo["interests"].map((interest: string) => {
                       return (
-                        <span
+                        <div
                           key={interest}
-                          className="interested flex items-center align-center border border-slate-500"
+                          className="interested flex items-center align-center border"
                         >
                           <h4 className="text-sm">{`#${interest}`}</h4>
-                        </span>
+                        </div>
                       );
                     })}
                   </div>
                 </div>
               </div>
-            ) : null}
+            )}
           </section>
         </div>
       </section>
