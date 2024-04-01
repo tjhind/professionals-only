@@ -114,7 +114,7 @@ export default function ProfileForm() {
                     : setErrorMsgs((curr) => {
                         return {
                           ...curr,
-                          ["firstName"]: errorMsgs["firstName"],
+                          ["firstName"]: errorMessages["firstName"],
                         };
                       });
                   showError("firstName");
@@ -132,7 +132,10 @@ export default function ProfileForm() {
                         return { ...curr, ["lastName"]: "" };
                       })
                     : setErrorMsgs((curr) => {
-                        return { ...curr, ["lastName"]: errorMsgs["lastName"] };
+                        return {
+                          ...curr,
+                          ["lastName"]: errorMessages["lastName"],
+                        };
                       });
                   showError("lastName");
                 }}
@@ -166,7 +169,7 @@ export default function ProfileForm() {
                         };
                       })
                     : setErrorMsgs((curr) => {
-                        return { ...curr, ["job"]: errorMsgs["job"] };
+                        return { ...curr, ["job"]: errorMessages["job"] };
                       });
                   showError("job");
                 }}
@@ -191,7 +194,7 @@ export default function ProfileForm() {
                     ? setErrorMsgs((curr) => {
                         return {
                           ...curr,
-                          ["email"]: errorMsgs["email"],
+                          ["email"]: errorMessages["email"],
                         };
                       })
                     : userInfo["email"].match(
@@ -233,7 +236,7 @@ export default function ProfileForm() {
                         };
                       })
                     : setErrorMsgs((curr) => {
-                        return { ...curr, ["city"]: errorMsgs["city"] };
+                        return { ...curr, ["city"]: errorMessages["city"] };
                       });
                   showError("city");
                 }}
@@ -263,7 +266,7 @@ export default function ProfileForm() {
                         };
                       })
                     : setErrorMsgs((curr) => {
-                        return { ...curr, ["DOB"]: errorMsgs["DOB"] };
+                        return { ...curr, ["DOB"]: errorMessages["DOB"] };
                       });
                   showError("DOB");
                 }}
